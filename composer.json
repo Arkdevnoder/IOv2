@@ -1,0 +1,11 @@
+{
+    "name": "arknet/iov2",
+    "description": "PHP Image recognizer.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Arknet\\Iov2\\": "src/"
+        }
+    },
+    "require": {}
+}
