@@ -2,7 +2,7 @@
 
 namespace Arknet\IO\Formalizer;
 
-interface DetectorDeclarator {
+interface Detector {
 
 	public function identify();
 

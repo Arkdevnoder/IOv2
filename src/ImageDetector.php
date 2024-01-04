@@ -2,11 +2,11 @@
 
 namespace Arknet\IO;
 
-use Arknet\IO\Formalizer\DetectorDeclarator;
+use Arknet\IO\Formalizer\Detector;
 use Arknet\IO\Initializer\BaseConfiguration;
 use Arknet\IO\Converter\Segmentation;
 
-class ImageDetector implements DetectorDeclarator {
+class ImageDetector implements Detector {
 
 	private BaseConfiguration $baseConfiguration;
 

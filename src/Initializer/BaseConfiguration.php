@@ -2,10 +2,11 @@
 
 namespace Arknet\IO\Initializer;
 
+use Arknet\IO\Trait\InAndOutPathProperty;
+
 class BaseConfiguration {
 
-	private string $fromPath;
-	private string $toPath;
+	use InAndOutPathProperty;
 
 	public function setFromPath(string $path): BaseConfiguration
 	{
