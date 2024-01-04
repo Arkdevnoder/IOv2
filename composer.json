@@ -2,6 +2,7 @@
     "name": "arknet/iov2",
     "description": "PHP Image recognizer.",
     "type": "library",
+    "version": "0.0.1",
     "autoload": {
         "psr-4": {
             "Arknet\\IO\\": "src/"

@@ -6,9 +6,12 @@ use Arknet\IO\Initializer\BaseConfiguration;
 
 class Segmentation {
 
+	private string $fromPath;
+	private string $toPath;
+
 	public function __construct(BaseConfiguration $baseConfiguration){
-		$this->fromPath = $baseConfiguration->fromPath;
-		$this->toPath = $baseConfiguration->toPath;
+		$this->fromPath = $baseConfiguration->getFromPath();
+		$this->toPath = $baseConfiguration->getToPath();
 	}
 
 	public function convert(){

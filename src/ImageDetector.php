@@ -8,6 +8,8 @@ use Arknet\IO\Converter\Segmentation;
 
 class ImageDetector implements DetectorDeclarator {
 
+	private BaseConfiguration $baseConfiguration;
+
 	public function __construct(BaseConfiguration $baseConfiguration)
 	{
 		$this->baseConfiguration = $baseConfiguration;
