@@ -15,6 +15,7 @@ class Picture implements Preparable {
 	private string $extension;
 	private \GdImage $GDImage;
 	private array $gridPicture;
+	private PixelEntity $pixelEntity;
 
 	public function __construct(
 		private string $path
@@ -29,14 +30,14 @@ class Picture implements Preparable {
 		return $this->afterCheckingPrepare();
 	}
 
-	private function beforeCheckingPrepare(): void
-	{
-		$this->extension = $this->getImageExtension();
-	}
-
 	public function getPictureGrid(): array
 	{
 		return $this->gridPicture;
+	}
+
+	private function beforeCheckingPrepare(): void
+	{
+		$this->extension = $this->getImageExtension();
 	}
 
 	private function isMatchingPicture(): bool
@@ -71,6 +72,7 @@ class Picture implements Preparable {
 		$this->GDImage = $this->getGDImage();
 		$this->width = $this->getPictureWidth();
 		$this->height = $this->getPictureHeight();
+		$this->pixelEntity = $this->getPixelEntity();
 		$this->gridPicture = $this->getGridPicture();
 	}
 
@@ -96,6 +98,11 @@ class Picture implements Preparable {
 		return $handlerName($this->path);
 	}
 
+	private function getPixelEntity(): PixelEntity
+	{
+		return new PixelEntity();
+	}
+
 	private function getGridPicture(): array
 	{
 		for($y = 0; $y < $this->height; $y++){
@@ -113,9 +120,10 @@ class Picture implements Preparable {
 		return $lines;
 	}
 
-	private function getPixelHandler(int $rgb): Pixel
+	private function getPixelHandler(int $rgb): PixelEntity
 	{
-		$pixel = new Pixel($rgb);
+		$pixel = clone $this->pixelEntity;
+		$pixel->setColor($rgb);
 		$pixel->prepare();
 		return $pixel;
 	}

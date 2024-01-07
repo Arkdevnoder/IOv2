@@ -4,15 +4,19 @@ namespace Arknet\IO;
 
 use Arknet\IO\Formalizer\Preparable;
 
-class Pixel implements Preparable {
+abstract class PixelPrototype implements Preparable {
 
-	private int $red;
-	private int $green;
-	private int $blue;
+	protected int $red;
+	protected int $green;
+	protected int $blue;
+	protected int $rgb;
 
-	public function __construct(
-		private $rgb
-	) {}
+	abstract public function __clone();
+
+	public function setColor(int $rgb): void
+	{
+		$this->rgb = $rgb;
+	}
 
 	public function getRed(): int
 	{
