@@ -4,8 +4,8 @@ namespace Arknet\IO;
 
 use Arknet\IO\Formalizer\Preparable;
 
-abstract class PixelPrototype implements Preparable {
-
+abstract class PixelPrototype implements Preparable
+{
 	protected int $red;
 	protected int $green;
 	protected int $blue;

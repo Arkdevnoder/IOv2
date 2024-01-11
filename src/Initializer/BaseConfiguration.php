@@ -4,8 +4,8 @@ namespace Arknet\IO\Initializer;
 
 use Arknet\IO\Trait\InAndOutPathProperty;
 
-class BaseConfiguration {
-
+class BaseConfiguration
+{
 	use InAndOutPathProperty;
 
 	public function setFromPath(string $path): BaseConfiguration
@@ -29,5 +29,4 @@ class BaseConfiguration {
 	{
 		return $this->toPath;
 	}
-
 }

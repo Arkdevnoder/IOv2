@@ -6,8 +6,8 @@ use Arknet\IO\Formalizer\Detector;
 use Arknet\IO\Initializer\BaseConfiguration;
 use Arknet\IO\Converter\Segmentation;
 
-class ImageDetector implements Detector {
-
+class ImageDetector implements Detector
+{
 	private BaseConfiguration $baseConfiguration;
 
 	public function __construct(BaseConfiguration $baseConfiguration)
@@ -24,5 +24,4 @@ class ImageDetector implements Detector {
 	{
 		return new Segmentation($this->baseConfiguration);
 	}
-
 }

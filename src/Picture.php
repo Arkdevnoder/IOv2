@@ -3,23 +3,24 @@
 namespace Arknet\IO;
 
 use Arknet\IO\Formalizer\Preparable;
-use Arknet\IO\Trait\GDPictureHandlerName;
-use Arknet\IO\Enumeration\PictureExtension;
+use Arknet\IO\Trait\RasterFile;
+use Arknet\IO\Initializer\RasterDefiner;
 
-class Picture implements Preparable {
+class Picture implements Preparable
+{
+	use RasterFile;
 
-	use GDPictureHandlerName;
-
-	private int $width;
-	private int $height;
-	private string $extension;
-	private \GdImage $GDImage;
-	private array $gridPicture;
-	private PixelEntity $pixelEntity;
+	private string $path;
+	private float $scale;
+	private int $chunksCount;
 
 	public function __construct(
-		private string $path
-	) {}
+		private RasterInitializer $rasterInitializer
+	) {
+		$this->path = $rasterInitializer->getPath();
+		$this->scale = $rasterInitializer->getScale();
+		$this->chunksCount = $rasterInitializer->getChunksCount();
+	}
 
 	public function prepare(): Picture
 	{
@@ -30,107 +31,13 @@ class Picture implements Preparable {
 		return $this->afterCheckingPrepare();
 	}
 
-	public function getPictureGrid(): array
+	public function getVector(): array
 	{
-		return $this->gridPicture;
+		return $this->vector;
 	}
 
-	private function beforeCheckingPrepare(): void
+	public function countVector(): int
 	{
-		$this->extension = $this->getImageExtension();
+		return count($this->vector);
 	}
-
-	private function isMatchingPicture(): bool
-	{
-		if($this->isValidPath()){
-			return $this->isValidPropertyExtension();
-		}
-		return false;
-	}
-
-	private function isValidPath(): bool
-	{
-		return file_exists($this->path);
-	}
-
-	private function isValidPropertyExtension(): bool
-	{
-		if(PictureExtension::tryFrom($this->extension) === null){
-			return false;
-		}
-		return true;
-	}
-
-	private function afterCheckingPrepare(): Picture
-	{
-		$this->setRemainingRawDataInProperties();
-		return $this;
-	}
-
-	private function setRemainingRawDataInProperties(): void
-	{
-		$this->GDImage = $this->getGDImage();
-		$this->width = $this->getPictureWidth();
-		$this->height = $this->getPictureHeight();
-		$this->pixelEntity = $this->getPixelEntity();
-		$this->gridPicture = $this->getGridPicture();
-	}
-
-	private function getImageExtension(): string
-	{
-		setlocale(LC_ALL,'en_US.UTF-8');
-		return pathinfo($this->path, PATHINFO_EXTENSION);
-	}
-
-	private function getPictureWidth(): int
-	{
-		return imagesx($this->GDImage);
-	}
-
-	private function getPictureHeight(): int
-	{
-		return imagesy($this->GDImage);
-	}
-
-	private function getGDImage(): \GDImage
-	{
-		$handlerName = $this->getHandlerName($this->extension);
-		return $handlerName($this->path);
-	}
-
-	private function getPixelEntity(): PixelEntity
-	{
-		return new PixelEntity();
-	}
-
-	private function getGridPicture(): array
-	{
-		for($y = 0; $y < $this->height; $y++){
-			$picture[$y] = $this->getLineInRawPicture($y);
-		}
-		return $picture;
-	}
-
-	private function getLineInRawPicture(int $line): array
-	{
-		for($x = 0; $x < $this->width; $x++){
-			$rgb = $this->getPixelRaw($x, $line);
-			$lines[$x] = $this->getPixelHandler($rgb);
-		}
-		return $lines;
-	}
-
-	private function getPixelHandler(int $rgb): PixelEntity
-	{
-		$pixel = clone $this->pixelEntity;
-		$pixel->setColor($rgb);
-		$pixel->prepare();
-		return $pixel;
-	}
-
-	private function getPixelRaw($x, $y): int|false
-	{
-		return imagecolorat($this->GDImage, $x, $y);
-	}
-
 }

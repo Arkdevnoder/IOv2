@@ -14,5 +14,4 @@ trait GDPictureHandlerName {
 			PictureExtension::Jpeg->value => "imagecreatefromjpeg"
 		};
 	}
-
 }
