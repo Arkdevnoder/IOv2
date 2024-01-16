@@ -2,11 +2,13 @@
 
 namespace Arknet\IO\Initializer;
 
-use Arknet\IO\Trait\InAndOutPathProperty;
+use Arknet\IO\Trait\EntryFragmentProperty;
+use Arknet\IO\Trait\ChunkFragmentGetterSetter;
 
 class BaseConfiguration
 {
-	use InAndOutPathProperty;
+	use EntryFragmentProperty;
+	use ChunkFragmentGetterSetter;
 
 	public function setFromPath(string $path): BaseConfiguration
 	{

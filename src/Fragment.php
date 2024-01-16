@@ -6,23 +6,23 @@ use Arknet\IO\Formalizer\Preparable;
 use Arknet\IO\Trait\RasterFile;
 use Arknet\IO\Initializer\RasterDefiner;
 
-class Picture implements Preparable
+class Fragment implements Preparable
 {
 	use RasterFile;
 
 	private string $path;
 	private float $scale;
-	private int $chunksCount;
+	private int $entryPicturePartsCount;
 
 	public function __construct(
-		private RasterInitializer $rasterInitializer
+		private RasterDefiner $rasterInitializer
 	) {
 		$this->path = $rasterInitializer->getPath();
 		$this->scale = $rasterInitializer->getScale();
-		$this->chunksCount = $rasterInitializer->getChunksCount();
+		$this->entryPicturePartsCount = $rasterInitializer->getEntryPicturePartsCount();
 	}
 
-	public function prepare(): Picture
+	public function prepare(): Fragment
 	{
 		$this->beforeCheckingPrepare();
 		if(!$this->isMatchingPicture()){

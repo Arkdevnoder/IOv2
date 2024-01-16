@@ -2,24 +2,21 @@
 
 namespace Arknet\IO\Trait;
 
-use Arknet\IO\Picture;
+use Arknet\IO\Fragment;
 use Arknet\IO\Trait\GDPictureHandlerName;
 use Arknet\IO\Enumeration\PictureExtension;
 
 trait RasterFile
 {
+	use PictureMeta;
+	use PictureBag;
 	use GDPictureHandlerName;
 
-	private int $width;
-	private int $height;
-	private string $extension;
-	private \GdImage $GDImage;
-	private array $vector;
 	private PixelEntity $pixelEntity;
 
 	private function beforeCheckingPrepare(): void
 	{
-		$this->extension = $this->getImageExtension();
+		$this->setExtension($this->getImageExtension());
 	}
 
 	private function isMatchingPicture(): bool
@@ -43,7 +40,7 @@ trait RasterFile
 		return true;
 	}
 
-	private function afterCheckingPrepare(): Picture
+	private function afterCheckingPrepare(): Fragment
 	{
 		$this->setRemainingRawDataInProperties();
 		return $this;
@@ -57,13 +54,13 @@ trait RasterFile
 
 	private function setRemainingRawDataInProperties(): void
 	{
-		$this->GDImage = $this->getGDImage();
-		$this->width = $this->getPictureWidth();
-		$this->height = $this->getPictureHeight();
-		$this->vector = $this->getPictureVector();
+		$this->setGDImage($this->getPictureGDImage());
+		$this->setWidth($this->getPictureWidth());
+		$this->setHeight($this->getPictureHeight());
+		$this->setVector($this->getPictureVector());
 	}
 
-	private function getGDImage(): \GDImage
+	private function getPictureGDImage(): \GDImage
 	{
 		$handlerName = $this->getHandlerName($this->extension);
 		return $handlerName($this->path);
@@ -81,7 +78,8 @@ trait RasterFile
 
 	private function getPictureVector(): array
 	{
-		for($y = 0; $y < $this->height; $y++){
+		$height = $this->getHeight();
+		for($y = 0; $y < $height; $y++){
 			$picture[$y] = $this->getLineInRawPicture($y);
 		}
 		return $picture;
@@ -89,7 +87,8 @@ trait RasterFile
 
 	private function getLineInRawPicture(int $line): array
 	{
-		for($x = 0; $x < $this->width; $x++){
+		$width = $this->getWidth();
+		for($x = 0; $x < $width; $x++){
 			$lines[$x] = $this->getPixelRaw($x, $line);
 		}
 		return $lines;

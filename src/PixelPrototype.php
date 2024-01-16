@@ -33,7 +33,7 @@ abstract class PixelPrototype implements Preparable
 		return $this->blue;
 	}
 
-	public function prepare()
+	public function prepare(): void
 	{
 		$this->red = ($this->rgb >> 16) & 0xFF;
 		$this->green = ($this->rgb >> 8) & 0xFF;
