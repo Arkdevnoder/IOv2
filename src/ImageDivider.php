@@ -4,9 +4,9 @@ namespace Arknet\IO;
 
 use Arknet\IO\Formalizer\Detector;
 use Arknet\IO\Initializer\BaseConfiguration;
-use Arknet\IO\Converter\Segmentation;
+use Arknet\IO\Converter\Splitter;
 
-class ImageDetector implements Detector
+class ImageDivider implements Detector
 {
 	private BaseConfiguration $baseConfiguration;
 
@@ -17,11 +17,11 @@ class ImageDetector implements Detector
 
 	public function identify(): void
 	{
-		$this->getSegmentation()->convert();
+		$this->getSplitter()->convert();
 	}
 
-	private function getSegmentation(): Segmentation
+	private function getSplitter(): Splitter
 	{
-		return new Segmentation($this->baseConfiguration);
+		return new Splitter($this->baseConfiguration);
 	}
 }

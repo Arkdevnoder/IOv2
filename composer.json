@@ -1,8 +1,8 @@
 {
     "name": "arknet/iov2",
-    "description": "PHP Image recognizer.",
+    "description": "PHP Image segmentator.",
     "type": "library",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "autoload": {
         "psr-4": {
             "Arknet\\IO\\": "src/"

@@ -57,6 +57,8 @@ trait RasterFile
 		$this->setGDImage($this->getPictureGDImage());
 		$this->setWidth($this->getPictureWidth());
 		$this->setHeight($this->getPictureHeight());
+		$this->pictureDivider->setHeight($this->getHeight());
+		$this->pictureDivider->setWidth($this->getWidth());
 		$this->setVector($this->getPictureVector());
 	}
 
@@ -78,8 +80,10 @@ trait RasterFile
 
 	private function getPictureVector(): array
 	{
-		$height = $this->getHeight();
-		for($y = 0; $y < $height; $y++){
+		$chunkSelector = $this->pictureDivider->getChunkSelector();
+		$minimalHeight = $this->pictureDivider->getMinimalHeight($chunkSelector);
+		$maximumHeight = $this->pictureDivider->getMaximumHeight($chunkSelector);
+		for($y = $minimalHeight; $y < $maximumHeight; $y++){
 			$picture[$y] = $this->getLineInRawPicture($y);
 		}
 		return $picture;
@@ -87,14 +91,16 @@ trait RasterFile
 
 	private function getLineInRawPicture(int $line): array
 	{
-		$width = $this->getWidth();
-		for($x = 0; $x < $width; $x++){
+		$chunkSelector = $this->pictureDivider->getChunkSelector();
+		$minimalWidth = $this->pictureDivider->getMinimalWidth($chunkSelector);
+		$maximumWidth = $this->pictureDivider->getMaximumWidth($chunkSelector);
+		for($x = $minimalWidth; $x < $maximumWidth; $x++){
 			$lines[$x] = $this->getPixelRaw($x, $line);
 		}
-		return $lines;
+		return $lines ?? [];
 	}
 
-	private function getPixelRaw($x, $y): int|false
+	private function getPixelRaw(int $x, int $y): int|false
 	{
 		return imagecolorat($this->GDImage, $x, $y);
 	}

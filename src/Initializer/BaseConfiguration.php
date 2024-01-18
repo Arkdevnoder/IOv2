@@ -16,19 +16,8 @@ class BaseConfiguration
 		return $this;
 	}
 
-	public function setToPath(string $path): BaseConfiguration
-	{
-		$this->toPath = $path;
-		return $this;
-	}
-
 	public function getFromPath(): string
 	{
 		return $this->fromPath;
-	}
-
-	public function getToPath(): string
-	{
-		return $this->toPath;
 	}
 }
